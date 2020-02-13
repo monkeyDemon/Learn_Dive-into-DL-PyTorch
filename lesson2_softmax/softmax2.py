@@ -87,6 +87,7 @@ init.constant_(net.linear.bias, val=0)
 # 定义损失函数
 loss = nn.CrossEntropyLoss() # 下面是他的函数原型
 # class torch.nn.CrossEntropyLoss(weight=None, size_average=None, ignore_index=-100, reduce=None, reduction='mean')
+# nn.CrossEntropyLoss 中实现了softmax计算
 
 
 # 定义优化函数
