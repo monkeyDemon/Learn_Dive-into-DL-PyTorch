@@ -5,6 +5,7 @@ Created on Tue Feb 11 13:58:17 2020
 使用pytorch的线性回归简洁实现
 
 @author: 伯禹教育
+@modified by: as
 """
 
 import torch
