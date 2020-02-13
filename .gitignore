@@ -1,0 +1,7 @@
+# FashionMnist data file
+dataset/FashionMNIST/raw/t10k-images-idx3-ubyte
+dataset/FashionMNIST/raw/t10k-labels-idx1-ubyte
+dataset/FashionMNIST/raw/train-images-idx3-ubyte
+dataset/FashionMNIST/raw/train-labels-idx1-ubyte
+dataset/FashionMNIST/processed/training.pt
+dataset/FashionMNIST/processed/test.pt
