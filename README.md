@@ -17,7 +17,7 @@ Datawhale第10期组队学习活动：《动手学深度学习》Pytorch版 的�
 
 * softmax回归 :beer:
 
-* 多层感知机
+* 多层感知机 :beer:
 
 * 文本预处理
 
