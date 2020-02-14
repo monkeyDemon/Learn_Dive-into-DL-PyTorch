@@ -16,7 +16,7 @@ Datawhale第10期组队学习活动：《动手学深度学习》Pytorch版 的�
 
 所以我们用代码把数据集挪到work下就好了:tada:
 
-![download-dataset](imgs/download_dataset.jpg)
+![download-dataset]('imgs/download_dataset.jpg')
 
 代码示例：
 ``` python
