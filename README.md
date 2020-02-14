@@ -10,6 +10,23 @@ Datawhale第10期组队学习活动：《动手学深度学习》Pytorch版 的�
 
 学习中常见问题及解决办法：https://shimo.im/docs/86tr6VvQVRdvkX8r
 
+## 如何下载数据集到自己的环境？
+
+按照官方给出的解释，work文件夹下的数据都能下载到本地，input文件夹里的数据原则上不能下载
+
+所以我们用代码把数据集挪到work下就好了:tada:
+
+![download-dataset](imgs/download_dataset.jpg)
+
+代码示例：
+``` python
+import os
+cp_str = 'cp -r /home/kesci/input/nltk_data3784/nltk_data /home/kesci/work'
+os.system(cp_str)
+tar_str = 'tar czvf /home/kesci/work/nltk_data.tar /home/kesci/work/nltk_data'
+os.system(tar_str)
+print('finish')
+```
 
 ## 学习内容安排与代码更新进度
 
