@@ -16,7 +16,7 @@ Datawhale第10期组队学习活动：《动手学深度学习》Pytorch版 的�
 
 所以我们用代码把数据集挪到work下就好了:tada:
 
-![download-dataset](https://github.com/monkeyDemon/Learn_Dive-into-DL-PyTorch/blob/master/imgs/download_dataset.jpg)
+![download-dataset](./imgs/download_dataset.jpg)
 
 代码示例：
 ``` python
@@ -36,7 +36,7 @@ print('finish')
 
 * 多层感知机 :beer:
 
-* 文本预处理
+* 文本预处理 :beer:
 
 * 语言模型
 
