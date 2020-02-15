@@ -21,7 +21,7 @@ import collections
 import re
 
 def read_time_machine():
-    with open('timemachine.txt', 'r') as f:
+    with open('../dataset/timemachine.txt', 'r') as f:
         lines = [re.sub('[^a-z]+', ' ', line.strip().lower()) for line in f]
     return lines
 # strip去除首尾指定元素，默认\n和空格
@@ -122,7 +122,8 @@ text = "Mr. Chen doesn't agree with my suggestion."
 
 #print('使用spaCy进行分词')
 #import spacy
-#nlp = spacy.load('en_core_web_sm')
+#nlp = spacy.load('en')
+##nlp = spacy.load('en_core_web_sm')
 #doc = nlp(text)
 #print([token.text for token in doc])
 
