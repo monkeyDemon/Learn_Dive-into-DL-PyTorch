@@ -66,9 +66,9 @@ print('finish')
 
 * Transformer
 
-* 卷积神经网络基础
+* 卷积神经网络基础 :beer:
 
-* leNet
+* leNet :beer:
 
 * 卷积神经网络进阶
 
