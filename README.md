@@ -16,7 +16,7 @@ Datawhale第10期组队学习活动：《动手学深度学习》Pytorch版 的�
 
 所以我们用代码把数据集挪到work下就好了:tada:
 
-![download-dataset](https://raw.githubusercontent.com/Rundong-Li/Learn_Dive-into-DL-PyTorch/master/imgs/download_dataset.jpg)
+![download-dataset](https://raw.githubusercontent.com/monkeyDemon/Learn_Dive-into-DL-PyTorch/master/imgs/download_dataset.jpg)
 
 图片有时加载不出来，这里再简单描述下步骤：
 
