@@ -70,7 +70,7 @@ print('finish')
 
 * leNet :beer:
 
-* 卷积神经网络进阶
+* 卷积神经网络进阶 :beer:
 
 * 批量归一化和残差网络
 
