@@ -46,6 +46,7 @@ import d2lzh_pytorch as d2l
 # 设置CUDA可见设备
 os.environ["CUDA_VISIBLE_DEVICES"] = "7"
 
+
 # 定义一次batch normalization运算的计算图
 def batch_norm(is_training, X, gamma, beta, moving_mean, moving_var, eps, momentum):
     # 判断当前模式是训练模式还是预测模式
