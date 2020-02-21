@@ -10,6 +10,14 @@ Datawhale第10期组队学习活动：《动手学深度学习》Pytorch版 的�
 
 学习中常见问题及解决办法：https://shimo.im/docs/86tr6VvQVRdvkX8r
 
+## 大作业baseline 新!:rocket:
+
+为方便大家学习，这里给出一个比较基本的baseline，得分0.9235
+
+主要是给没有基础的小伙伴一个指引，包括如何下载数据集，保存模型，生成提交结果的一个简单流程。
+
+详见目录： `assignment1_FinshionMNIST_Classification`
+
 ## 如何下载数据集到自己的环境？
 
 按照官方给出的解释，work文件夹下的数据都能下载到本地，input文件夹里的数据原则上不能下载
