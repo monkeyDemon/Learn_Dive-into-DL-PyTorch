@@ -8,3 +8,4 @@ dataset/FashionMNIST/processed/test.pt
 dataset/nltk_data.tar
 dataset/nltk_data
 *.pyc
+*.pth
