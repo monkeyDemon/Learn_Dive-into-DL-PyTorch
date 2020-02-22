@@ -4,10 +4,6 @@ Created on Fri Feb 21 16:05:59 2020
 
 FanshionMNIST 分类任务大作业 baseline
 
-# download pretrain weight
-cd pretrain
-wget https://download.pytorch.org/models/resnet18-5c106cde.pth
-
 @author: as
 """
 import os
@@ -16,18 +12,32 @@ import time
 import torch
 from torch import nn, optim
 import torch.nn.functional as F
-from torch.utils.data import Dataset, DataLoader
 import torchvision
 from torchvision import transforms
-
-sys.path.append("../../")
-import d2lzh_pytorch as d2l
 
 
 os.environ["CUDA_VISIBLE_DEVICES"] = "7"  # TODO:
 
 
-class Residual(nn.Module):  # 本类已保存在d2lzh_pytorch包中方便以后使用
+class GlobalAvgPool2d(nn.Module):
+    """
+    全局平均池化层
+    可通过将普通的平均池化的窗口形状设置成输入的高和宽实现
+    """
+    def __init__(self):
+        super(GlobalAvgPool2d, self).__init__()
+    def forward(self, x):
+        return F.avg_pool2d(x, kernel_size=x.size()[2:])
+
+
+class FlattenLayer(torch.nn.Module):
+    def __init__(self):
+        super(FlattenLayer, self).__init__()
+    def forward(self, x): # x shape: (batch, *, *, ...)
+        return x.view(x.shape[0], -1)
+
+
+class Residual(nn.Module): 
     def __init__(self, in_channels, out_channels, use_1x1conv=False, stride=1):
         """
             use_1×1conv: 是否使用额外的1x1卷积层来修改通道数
@@ -87,9 +97,9 @@ net.add_module("resnet_block2", resnet_block(32, 64, 2))
 net.add_module("resnet_block3", resnet_block(64, 128, 2))
 net.add_module("resnet_block4", resnet_block(128, 256, 2))
 # global average pooling
-net.add_module("global_avg_pool", d2l.GlobalAvgPool2d()) 
+net.add_module("global_avg_pool", GlobalAvgPool2d()) 
 # fc layer
-net.add_module("fc", nn.Sequential(d2l.FlattenLayer(), nn.Linear(256, 10)))
+net.add_module("fc", nn.Sequential(FlattenLayer(), nn.Linear(256, 10)))
 
 
 print('打印网络结构(主要是为了确认如何调整)')
