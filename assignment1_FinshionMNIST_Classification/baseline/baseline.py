@@ -24,8 +24,7 @@ sys.path.append("../../")
 import d2lzh_pytorch as d2l
 
 
-os.environ["CUDA_VISIBLE_DEVICES"] = "7"
-
+os.environ["CUDA_VISIBLE_DEVICES"] = "7"  # TODO:
 
 
 class Residual(nn.Module):  # 本类已保存在d2lzh_pytorch包中方便以后使用
