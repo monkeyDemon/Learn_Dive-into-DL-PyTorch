@@ -7,5 +7,6 @@ dataset/FashionMNIST/processed/training.pt
 dataset/FashionMNIST/processed/test.pt
 dataset/nltk_data.tar
 dataset/nltk_data
+dataset/hotdog
 *.pyc
 *.pth
