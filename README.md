@@ -16,6 +16,8 @@ Datawhale第10期组队学习活动：《动手学深度学习》Pytorch版 的�
 
 主要是给没有基础的小伙伴一个指引，包括如何下载数据集，保存模型，生成提交结果的一个简单流程。
 
+2020/2/22更新，分数提到 0.9432:rocket:
+
 详见目录： `assignment1_FinshionMNIST_Classification`
 
 ## 如何下载数据集到自己的环境？
@@ -96,7 +98,7 @@ print('finish')
 
 * 数据增强
 
-* 模型微调
+* 模型微调 :beer:
 
 * 目标检测基础
 
@@ -131,6 +133,10 @@ Datawhale奖励：【优秀学习者】和【优秀团队】证书，Datawhale�
 
 3.优秀的学习成果可通过打卡结果参考，更希望大家沉淀在伯禹平台讨论区，触发【额外奖励】。
 
+## 常见问题
+
+[hotdog数据集下载](https://apache-mxnet.s3-accelerate.amazonaws.com/gluon/dataset/hotdog.zip)
+
 
 ## 【参考资料】
 
@@ -139,3 +145,5 @@ Datawhale奖励：【优秀学习者】和【优秀团队】证书，Datawhale�
 PyTorch中文文档：https://pytorch-cn.readthedocs.io/zh/stable/
 
 部分PyTorch代码来自GitHub开源仓库：https://github.com/ShusenTang/Dive-into-DL-PyTorch
+
+
