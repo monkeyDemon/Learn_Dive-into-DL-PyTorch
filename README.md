@@ -14,13 +14,13 @@ Datawhale第10期组队学习活动：《动手学深度学习》Pytorch版 的�
 
 为方便大家学习，这里给出一个比较基本的baseline，得分0.9235
 
-2020/2/22更新，分数提到 0.9432:rocket:
+2020/2/22更新，分数提到 0.9432
 
-2020/2/26更新 0.9526:rocket:
+2020/2/26更新 0.9526
 
 详见目录：`assignment1_FinshionMNIST_Classification`
 
-**即将更新 0.9625 分解决方案** :rocket:, 敬请期待:beer:
+**即将更新 0.9625 分解决方案**, 敬请期待:beer:
 
 
 ## NLP大作业baseline 新！:rocket:
