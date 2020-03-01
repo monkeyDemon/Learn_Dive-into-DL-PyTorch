@@ -18,7 +18,13 @@ Datawhale第10期组队学习活动：《动手学深度学习》Pytorch版 的�
 
 2020/2/22更新，分数提到 0.9432:rocket:
 
-详见目录： `assignment1_FinshionMNIST_Classification`
+2020/2/26更新 0.9526:rocket:
+
+详见目录：`assignment1_FinshionMNIST_Classification`
+
+## 未完待续...
+
+即将更新 0.9625 分解决方案, 敬请期待:beer:
 
 ## 如何下载数据集到自己的环境？
 
