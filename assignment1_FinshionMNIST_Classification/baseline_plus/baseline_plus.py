@@ -17,7 +17,7 @@ import torchvision
 from torchvision import transforms
 
 
-os.environ["CUDA_VISIBLE_DEVICES"] = "7"  # TODO:
+os.environ["CUDA_VISIBLE_DEVICES"] = "1"  # TODO:
 
 
 class GlobalAvgPool2d(nn.Module):
@@ -190,13 +190,17 @@ def evaluate_accuracy(data_iter, net, device=None):
     return acc_sum / n
 
 
-def train_model(net, train_iter, test_iter, batch_size, optimizer, device, num_epochs):
+def train_model(net, train_iter, test_iter, batch_size, optimizer, device, num_epochs, lr, lr_period, lr_decay):
     net = net.to(device)
     print("training on ", device)
     loss = torch.nn.CrossEntropyLoss()
     best_test_acc = 0
     for epoch in range(num_epochs):
         train_l_sum, train_acc_sum, n, batch_count, start = 0.0, 0.0, 0, 0, time.time()
+        if epoch > 0 and epoch % lr_period == 0:  # 每lr_period个epoch，学习率衰减一次
+            lr = lr * lr_decay
+            for param_group in optimizer.param_groups:
+                param_group['lr'] = lr
         for X, y in train_iter:
             X = X.to(device)
             y = y.to(device)
@@ -216,18 +220,17 @@ def train_model(net, train_iter, test_iter, batch_size, optimizer, device, num_e
             print('find best! save at model/best.pth')
             best_test_acc = test_acc
             torch.save(net.state_dict(), 'model/best.pth')
-            #utils.save_model({
-            #    'arch': args.model,
-            #    'state_dict': net.state_dict()
-            #}, 'saved-models/{}-run-{}.pth.tar'.format(args.model, run))
 
 
 print('训练...')
-lr, num_epochs = 0.01, 50
+num_epochs = 50
+lr = 0.01
+lr_period = 40
+lr_decay = 0.1
 #optimizer = optim.Adam(net.parameters(), lr=lr)
 optimizer = optim.SGD(net.parameters(), lr=lr, momentum=0.9, weight_decay=5e-4)   # TODO:
 device = torch.device('cuda:0' if torch.cuda.is_available() else 'cpu')
-train_model(net, train_iter, test_iter, batch_size, optimizer, device, num_epochs)
+train_model(net, train_iter, test_iter, batch_size, optimizer, device, num_epochs, lr, lr_period, lr_decay)
 
 
 print('加载最优模型')
