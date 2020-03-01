@@ -117,3 +117,27 @@ inference测试集
 ```
 
 仅供刚入门的小伙伴参考，欢迎把进一步提分的技巧和喜悦分享给我~
+
+
+## 2020/2/26更新 0.9526:rocket:
+
+仅仅在之前的基础上，添加学习率阶段性下降的策略，即可将分数进一步提升到0.9526
+
+在train_model函数中加入如下逻辑即可
+
+```python
+def train_model(net, train_iter, test_iter, batch_size, optimizer, device, num_epochs, lr, lr_period, lr_decay):
+    ...
+    ... 
+    for epoch in range(num_epochs):
+        train_l_sum, train_acc_sum, n, batch_count, start = 0.0, 0.0, 0, 0, time.time()
+        if epoch > 0 and epoch % lr_period == 0:  # 每lr_period个epoch，学习率衰减一次
+            lr = lr * lr_decay
+            for param_group in optimizer.param_groups:
+                param_group['lr'] = lr
+        for X, y in train_iter:
+            X = X.to(device)
+            y = y.to(device)
+            ...
+            ...
+```
