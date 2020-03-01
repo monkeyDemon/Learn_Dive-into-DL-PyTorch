@@ -10,7 +10,7 @@ Datawhale第10期组队学习活动：《动手学深度学习》Pytorch版 的�
 
 学习中常见问题及解决办法：https://shimo.im/docs/86tr6VvQVRdvkX8r
 
-## 大作业baseline 新!:rocket:
+## 大作业baseline 
 
 为方便大家学习，这里给出一个比较基本的baseline，得分0.9235
 
@@ -22,9 +22,15 @@ Datawhale第10期组队学习活动：《动手学深度学习》Pytorch版 的�
 
 详见目录：`assignment1_FinshionMNIST_Classification`
 
-## 未完待续...
+即将更新 0.9625 :rocket:分解决方案, 敬请期待:beer:
 
-即将更新 0.9625 分解决方案, 敬请期待:beer:
+
+## NLP大作业baseline 新！:rocket:
+
+感谢[艾春辉](https://blog.csdn.net/weixin_42479155)同学提供的95.340分的baseline
+
+代码详见`assignment2_Recommended_Comments`
+
 
 ## 如何下载数据集到自己的环境？
 
