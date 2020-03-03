@@ -26,12 +26,7 @@ Datawhale第10期组队学习活动：《动手学深度学习》Pytorch版 的�
 
 # 0.9621分(第一名解决方案:beer:)
 
-感谢`啊啦啦啦`同学分享的解决方案
-
-使用了很多比较新的数据增强方案，值得学习~
-
-[代码](https://github.com/whut2962575697/image_classification)
-
+感谢`啊啦啦啦`同学分享的解决方案,使用了很多比较新的数据增强方案，值得学习~ [代码](https://github.com/whut2962575697/image_classification)
 
 ## NLP大作业
 
@@ -45,11 +40,9 @@ Datawhale第10期组队学习活动：《动手学深度学习》Pytorch版 的�
 
 # 0.96965分方案
 
-感谢 `sun1106645759` 同学分享的方案
+感谢 `sun1106645759` 同学分享的方案 
 
-[博客](https://www.jianshu.com/p/4d28479d2f44)  
-
-[代码](https://github.com/guangweis/BERT--Recommended-comments)
+[博客](https://www.jianshu.com/p/4d28479d2f44)   [代码](https://github.com/guangweis/BERT--Recommended-comments)
 
 # 0.7101分(第一名解决方案:beer:)
 
