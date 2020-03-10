@@ -8,8 +8,8 @@
 
 English Version: [Dive into Deep Learning](https://d2l.ai/) | [Github Repo](https://github.com/d2l-ai/d2l-en)
 
-原书实现代码为MXNet，针对本书的中英两个版本的Pytorch重构，github有两个版本：
-[中文版Pytorch重构](https://github.com/ShusenTang/Dive-into-DL-PyTorch), [英文版Pytorch重构](https://github.com/dsgiitr/d2l-pytorch)
+针对本书的MXNet代码，github分别有中英两个开源版本的Pytorch重构：
+[中文版Pytorch重构](https://github.com/ShusenTang/Dive-into-DL-PyTorch) | [英文版Pytorch重构](https://github.com/dsgiitr/d2l-pytorch)
 
 本项目正在对以上优质资源的代码进行学习和复现，后期将会力求进一步扩展，补充最新的模型，训练trick，学术进展等
 
