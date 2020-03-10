@@ -11,7 +11,9 @@ English Version: [Dive into Deep Learning](https://d2l.ai/) | [Github Repo](http
 原书实现代码为MXNet，针对本书的中英两个版本的Pytorch重构，github有两个版本：
 [中文版Pytorch重构](https://github.com/ShusenTang/Dive-into-DL-PyTorch), [英文版Pytorch重构](https://github.com/dsgiitr/d2l-pytorch)
 
-本项目持续更新中，正在对以上优质资源的代码进行学习和复现，后期将会力求进一步扩展，补充最新的模型，训练trick，学术进展等
+本项目正在对以上优质资源的代码进行学习和复现，后期将会力求进一步扩展，补充最新的模型，训练trick，学术进展等
+
+持续更新中...
 
 视频学习资料见伯禹[动手学深度学习课程页面](https://www.boyuai.com/elites/course/cZu18YmweLv10OeV)
 
@@ -90,7 +92,7 @@ print('finish')
 
 ## 目录与代码更新进度
 * 阅读指南
-* 1. 深度学习简介
+* 1\. 深度学习简介
 * 2\. 预备知识
    - [ ] 2.1 环境配置
    - [ ] 2.2 数据操作
@@ -188,9 +190,6 @@ print('finish')
 
 
 持续更新中......
-
-
-
 
 
 
