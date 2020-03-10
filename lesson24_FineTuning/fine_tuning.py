@@ -28,7 +28,7 @@ from torchvision import transforms
 from torchvision import models
 
 
-os.environ["CUDA_VISIBLE_DEVICES"] = "0"  # TODO:
+os.environ["CUDA_VISIBLE_DEVICES"] = "7"  # TODO:
 device = torch.device('cuda' if torch.cuda.is_available() else 'cpu')
 
 
@@ -113,16 +113,16 @@ optimizer = optim.SGD([{'params': feature_params},
 
 def train_fine_tuning(net, optimizer, batch_size=128, num_epochs=5):
     train_iter = DataLoader(ImageFolder(os.path.join(dataset_dir, 'train'), transform=train_augs),
-                            batch_size, shuffle=True)
+                            batch_size, shuffle=True, num_workers=2)
     test_iter = DataLoader(ImageFolder(os.path.join(dataset_dir, 'test'), transform=test_augs),
-                           batch_size)
+                           batch_size, num_workers=2)
     loss = torch.nn.CrossEntropyLoss()
     d2l.train(train_iter, test_iter, net, loss, optimizer, device, num_epochs)
 
 
 print('-----------------------------')
 print('训练：微调模型')
-train_fine_tuning(pretrained_net, optimizer)
+train_fine_tuning(pretrained_net, optimizer, batch_size=160, num_epochs=5)
 
 
 print('-----------------------------')
