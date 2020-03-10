@@ -1,14 +1,20 @@
 # Learn_Dive-into-DL-PyTorch
 
-Datawhale第10期组队学习活动：《动手学深度学习》Pytorch版 的练习代码
+本项目诞生于 Datawhale:whale:第10期组队学习活动：《动手学深度学习》Pytorch版, 由 Datawhale成员安晟维护
 
 课程页面：https://www.boyuai.com/elites/course/cZu18YmweLv10OeV
 
-本项目由5群助教维护, 为在自己环境进行练习的同学提供一个参考。
+《动手学深度学习》是亚马逊首席科学家李沐等人编写的一本优秀的深度学习教学，原书作者：阿斯顿·张、李沐、扎卡里 C. 立顿、亚历山大 J. 斯莫拉以及其他社区贡献者
 
-本项目也会根据课程进度，上传必要的数据集，方便大家下载。
+GitHub地址：https://github.com/d2l-ai/d2l-zh, 中文版官网教材：http://zh.gluon.ai/
 
-学习中常见问题及解决办法：https://shimo.im/docs/86tr6VvQVRdvkX8r
+原书实现代码为MXNet，针对本书的中英两个版本的Pytorch重构，github有两个版本：
+[中文版Pytorch重构](https://github.com/ShusenTang/Dive-into-DL-PyTorch/tree/master/docs), [英文版Pytorch重构]()
+
+PyTorch中文文档：https://pytorch-cn.readthedocs.io/zh/stable/
+
+部分PyTorch代码来自GitHub开源仓库：https://github.com/ShusenTang/Dive-into-DL-PyTorch
+
 
 # baseline汇总 :rocket:
 
