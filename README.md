@@ -66,7 +66,6 @@ English Version: [Dive into Deep Learning](https://d2l.ai/) | [Github Repo](http
 
 所以我们用代码把数据集挪到work下就好了:tada:
 
-![download-dataset](https://raw.githubusercontent.com/monkeyDemon/Learn_Dive-into-DL-PyTorch/master/img/download_dataset.jpg)
 ![download-dataset](https://github.com/monkeyDemon/Learn_Dive-into-DL-PyTorch/blob/master/img/download_dataset.jpg)
 
 图片有时加载不出来，这里再简单描述下步骤：
@@ -166,7 +165,7 @@ print('finish')
    - [ ] 9.3 目标检测和边界框
    - [ ] 9.4 锚框
    - [ ] 9.5 多尺度目标检测
-   - [ ] 9.6 目标检测数据集（皮卡丘）
+   * [9.6 目标检测数据集（皮卡丘）](https://github.com/monkeyDemon/Learn_Dive-into-DL-PyTorch/blob/master/chapter09_computer_vision/9.6_object_detection_dataset_Pikachu/9.6_object_detection_dataset_pikachu.md)
    - [ ] 9.7 单发多框检测（SSD）
    - [ ] 9.8 区域卷积神经网络（R-CNN）系列
    - [ ] 9.9 语义分割和数据集
