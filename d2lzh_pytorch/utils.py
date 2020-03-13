@@ -1,18 +1,21 @@
-import collections
-import math
 import os
-import random
 import sys
-import tarfile
 import time
+import math
 import json
+import errno
+import random
+import tarfile
 import zipfile
+import collections
+import numpy as np
 from tqdm import tqdm
 from PIL import Image
-from collections import namedtuple
-
 #from IPython import display
+from collections import namedtuple
 from matplotlib import pyplot as plt
+
+
 import torch
 from torch import nn
 import torch.nn.functional as F
@@ -20,7 +23,6 @@ import torchvision
 import torchvision.transforms as transforms
 import torchtext
 import torchtext.vocab as Vocab
-import numpy as np
 
 
 VOC_CLASSES = ['background', 'aeroplane', 'bicycle', 'bird', 'boat',
@@ -684,15 +686,6 @@ class Benchmark():
 
 
 # ########################### 9.1 ########################################
-def show_images(imgs, num_rows, num_cols, scale=2):
-    figsize = (num_cols * scale, num_rows * scale)
-    _, axes = plt.subplots(num_rows, num_cols, figsize=figsize)
-    for i in range(num_rows):
-        for j in range(num_cols):
-            axes[i][j].imshow(imgs[i * num_cols + j])
-            axes[i][j].axes.get_xaxis().set_visible(False)
-            axes[i][j].axes.get_yaxis().set_visible(False)
-    return axes
 
 def train(train_iter, test_iter, net, loss, optimizer, device, num_epochs):
     net = net.to(device)
@@ -720,12 +713,6 @@ def train(train_iter, test_iter, net, loss, optimizer, device, num_epochs):
 
 
 ############################## 9.3 #####################
-def bbox_to_rect(bbox, color):
-    # 将边界框(左上x, 左上y, 右下x, 右下y)格式转换成matplotlib格式：
-    # ((左上x, 左上y), 宽, 高)
-    return plt.Rectangle(
-        xy=(bbox[0], bbox[1]), width=bbox[2]-bbox[0], height=bbox[3]-bbox[1],
-        fill=False, edgecolor=color, linewidth=2)
 
 
 
@@ -767,25 +754,6 @@ def MultiBoxPrior(feature_map, sizes=[0.75, 0.5, 0.25], ratios=[1, 2, 0.5]):
     
     return torch.tensor(anchors, dtype=torch.float32).view(1, -1, 4)
 
-def show_bboxes(axes, bboxes, labels=None, colors=None):
-    def _make_list(obj, default_values=None):
-        if obj is None:
-            obj = default_values
-        elif not isinstance(obj, (list, tuple)):
-            obj = [obj]
-        return obj
-
-    labels = _make_list(labels)
-    colors = _make_list(colors, ['b', 'g', 'r', 'm', 'c'])
-    for i, bbox in enumerate(bboxes):
-        color = colors[i % len(colors)]
-        rect = bbox_to_rect(bbox.detach().cpu().numpy(), color)
-        axes.add_patch(rect)
-        if labels and len(labels) > i:
-            text_color = 'k' if color == 'w' else 'w'
-            axes.text(rect.xy[0], rect.xy[1], labels[i],
-                      va='center', ha='center', fontsize=6, color=text_color,
-                      bbox=dict(facecolor=color, lw=0))
 
 def compute_intersection(set_1, set_2):
     """
@@ -1031,54 +999,255 @@ def MultiBoxDetection(cls_prob, loc_pred, anchor, nms_threshold = 0.5):
 
 
 # ################################# 9.6 ############################
-class PikachuDetDataset(torch.utils.data.Dataset):
-    """皮卡丘检测数据集类"""
-    def __init__(self, data_dir, part, image_size=(256, 256)):
-        assert part in ["train", "val"]
-        self.image_size = image_size
-        self.image_dir = os.path.join(data_dir, part, "images")
-        
-        with open(os.path.join(data_dir, part, "label.json")) as f:
-            self.label = json.load(f)
-            
-        self.transform = torchvision.transforms.Compose([
-            # 将 PIL 图片转换成位于[0.0, 1.0]的floatTensor, shape (C x H x W)
-            torchvision.transforms.ToTensor()])
-            
-    def __len__(self):
-        return len(self.label)
-    
-    def __getitem__(self, index):
-        image_path = str(index + 1) + ".png"
-        
-        cls = self.label[image_path]["class"]
-        label = np.array([cls] + self.label[image_path]["loc"], 
-                         dtype="float32")[None, :]
-        
-        PIL_img = Image.open(os.path.join(self.image_dir, image_path)
-                            ).convert('RGB').resize(self.image_size)
-        img = self.transform(PIL_img)
-        
-        sample = {
-            "label": label, # shape: (1, 5) [class, xmin, ymin, xmax, ymax]
-            "image": img    # shape: (3, *image_size)
-        }
-        
-        return sample
+# pikachu数据集下载相关
 
-def load_data_pikachu(batch_size, edge_size=256, data_dir = '../../data/pikachu'):  
-    """edge_size：输出图像的宽和高"""
-    image_size = (edge_size, edge_size)
-    train_dataset = PikachuDetDataset(data_dir, 'train', image_size)
-    val_dataset = PikachuDetDataset(data_dir, 'val', image_size)
-    
+def gen_bar_updater():
+    pbar = tqdm(total=None)
+    def bar_update(count, block_size, total_size):
+        if pbar.total is None and total_size:
+            pbar.total = total_size
+        progress_bytes = count * block_size
+        pbar.update(progress_bytes - pbar.n)
+    return bar_update
 
-    train_iter = torch.utils.data.DataLoader(train_dataset, batch_size=batch_size, 
-                                             shuffle=True, num_workers=4)
 
-    val_iter = torch.utils.data.DataLoader(val_dataset, batch_size=batch_size,
-                                           shuffle=False, num_workers=4)
+def calculate_md5(fpath, chunk_size=1024 * 1024):
+    md5 = hashlib.md5()
+    with open(fpath, 'rb') as f:
+        for chunk in iter(lambda: f.read(chunk_size), b''):
+            md5.update(chunk)
+    return md5.hexdigest()
+
+
+def check_md5(fpath, md5, **kwargs):
+    return md5 == calculate_md5(fpath, **kwargs)
+
+
+def check_integrity(fpath, md5=None):
+    if not os.path.isfile(fpath):
+        return False
+    if md5 is None:
+        return True
+    return check_md5(fpath, md5)
+
+
+def makedir_exist_ok(dirpath):
+    """
+    Python2 support for os.makedirs(.., exist_ok=True)
+    """
+    try:
+        os.makedirs(dirpath)
+    except OSError as e:
+        if e.errno == errno.EEXIST:
+            pass
+        else:
+            raise
+
+
+# 辅助函数：下载指定url
+def download_url(url, root, filename=None, md5=None):
+    """Download a file from a url and place it in root.
+    Args:
+        url (str): URL to download file from
+        root (str): Directory to place downloaded file in
+        filename (str, optional): Name to save the file under. If None, use the basename of the URL
+        md5 (str, optional): MD5 checksum of the download. If None, do not check
+    """
+    from six.moves import urllib
+
+    root = os.path.expanduser(root)
+    if not filename:
+        filename = os.path.basename(url)
+    fpath = os.path.join(root, filename)
+
+    makedir_exist_ok(root)
+
+    # downloads file
+    if check_integrity(fpath, md5):
+        print('Using downloaded and verified file: ' + fpath)
+    else:
+        try:
+            print('Downloading ' + url + ' to ' + fpath)
+            urllib.request.urlretrieve(
+                url, fpath,
+                reporthook=gen_bar_updater()
+            )
+        except (urllib.error.URLError, IOError) as e:
+            if url[:5] == 'https':
+                url = url.replace('https:', 'http:')
+                print('Failed download. Trying https -> http instead.'
+                      ' Downloading ' + url + ' to ' + fpath)
+                urllib.request.urlretrieve(
+                    url, fpath,
+                    reporthook=gen_bar_updater()
+                )
+            else:
+                raise e
+
+# The following code is used to download pikachu dataset from mxnet aws server in the form of .rec files
+# Then this .rec file is converted into png images and json files for annotation data
+# This part requires 'mxnet' library which can be downloaded using conda 
+# using the command 'conda install mxnet'
+# Matplotlib is also required for saving the png image files
+
+# Download Pikachu Dataset
+def download_pikachu(data_dir):
+    root_url = ('https://apache-mxnet.s3-accelerate.amazonaws.com/'
+                'gluon/dataset/pikachu/')
+    dataset = {'train.rec': 'e6bcb6ffba1ac04ff8a9b1115e650af56ee969c8',
+               'train.idx': 'dcf7318b2602c06428b9988470c731621716c393',
+               'val.rec': 'd6c33f799b4d058e82f2cb5bd9a976f69d72d520'}
+    for k, v in dataset.items():
+        download_url(root_url + k, data_dir)
+
+
+# Create dataloaders in mxnet
+def load_data_pikachu_rec_mxnet(batch_size, edge_size=256, data_dir='../../dataset/pikachu'):
+    from mxnet import image
+    """Load the pikachu dataset"""
+    download_pikachu(data_dir)
+    train_iter = image.ImageDetIter(
+        path_imgrec=os.path.join(data_dir, 'train.rec'),
+        path_imgidx=os.path.join(data_dir, 'train.idx'),
+        batch_size=batch_size,
+        data_shape=(3, edge_size, edge_size),  # The shape of the output image
+        # shuffle=True,  # Read the data set in random order
+        # rand_crop=1,  # The probability of random cropping is 1
+        min_object_covered=0.95, max_attempts=200)
+    val_iter = image.ImageDetIter(
+        path_imgrec=os.path.join(data_dir, 'val.rec'), batch_size=batch_size,
+        data_shape=(3, edge_size, edge_size), shuffle=False)
     return train_iter, val_iter
+
+
+# Use mxnet dataloaders to convert .rec file to .png images and annotations.json
+def download_and_preprocess_pikachu_data(dir='../../dataset/pikachu/'):
+
+    if os.path.exists(os.path.join(dir, 'train')) and os.path.exists(os.path.join(dir, 'val')):
+        return
+
+    import mxnet as mx
+    batch_size = 1
+    ctx = mx.cpu(0)
+
+    train_iter, val_iter = load_data_pikachu_rec_mxnet(batch_size, edge_size=256, data_dir=dir)
+
+    os.mkdir(os.path.join(dir, 'train'))
+    os.mkdir(os.path.join(dir, 'val'))
+    os.mkdir(os.path.join(dir, 'train/images'))
+    os.mkdir(os.path.join(dir, 'val/images'))
+
+    annotations_train = dict()
+    train_iter.reset()  # Read data from the start.
+    id = 0
+    for batch in train_iter:
+        id+=1
+
+        X = batch.data[0].as_in_context(ctx)
+
+        Y = batch.label[0].as_in_context(ctx)
+
+        x = X.asnumpy()
+        x = x.transpose((2,3,1,0))
+        x = x.squeeze(axis=-1)
+        plt.imsave(os.path.join(dir, 'train/images', 'pikachu_' + str(id) + '.png'), x/255.)
+        an = dict()
+        y = Y.asnumpy()
+
+        an['class'] = y[0, 0][0].tolist()
+        an['loc'] = y[0,0][1:].tolist()
+        an['id'] = [id]
+        an['image'] = 'pikachu_' + str(id) + '.png'
+        annotations_train['data_' + str(id)] = an
+
+    import json
+    with open(os.path.join(dir, 'train', 'annotations.json'), 'w') as outfile:
+        json.dump(annotations_train, outfile)
+    outfile.close()
+
+
+    annotations_val = dict()
+    val_iter.reset()  # Read data from the start.
+    id = 0
+    for batch in val_iter:
+        id+=1
+
+        X = batch.data[0].as_in_context(ctx)
+
+        Y = batch.label[0].as_in_context(ctx)
+
+        x = X.asnumpy()
+        x = x.transpose((2,3,1,0))
+        x = x.squeeze(axis=-1)
+        plt.imsave(os.path.join(dir, 'val/images', 'pikachu_' + str(id) + '.png'), x/255.)
+        an = dict()
+        y = Y.asnumpy()
+
+        an['class'] = y[0, 0][0].tolist()
+        an['loc'] = y[0,0][1:].tolist()
+        an['id'] = [id]
+        an['image'] = 'pikachu_' + str(id) + '.png'
+        annotations_val['data_' + str(id)] = an
+
+    import json
+    with open(os.path.join(dir, 'val', 'annotations.json'), 'w') as outfile:
+        json.dump(annotations_val, outfile)
+    outfile.close()
+
+
+# Create Dataloaders in Pytorch 
+class PIKACHU(torch.utils.data.Dataset):
+    def __init__(self, data_dir, set, transform=None, target_transform=None):
+
+        self.image_size = (3, 256, 256)
+        self.images_dir = os.path.join(data_dir, set, 'images')
+
+        self.set = set
+        self.transform = transforms.Compose([
+            transforms.ToTensor()])
+        self.target_transform = target_transform
+
+        annotations_file = os.path.join(data_dir, set, 'annotations.json')
+        with open(annotations_file) as file:
+            self.annotations = json.load(file)
+
+    def __getitem__(self, index):
+
+        annotations_i = self.annotations['data_' + str(index+1)]
+
+        image_path = os.path.join(self.images_dir, annotations_i['image'])
+        img = np.array(Image.open(image_path).convert('RGB').resize((self.image_size[2], self.image_size[1]), Image.BILINEAR))
+        # print(img.shape)
+        loc = np.array(annotations_i['loc'])
+
+        loc_chw = np.zeros((4,))
+        loc_chw[0] = (loc[0] + loc[2])/2
+        loc_chw[1] = (loc[1] + loc[3])/2
+        loc_chw[2] = (loc[2] - loc[0])  #width
+        loc_chw[3] = (loc[3] - loc[1])  # height
+
+
+        label = 1 - annotations_i['class']
+
+        if self.transform is not None:
+            img = self.transform(img)
+        return (img, loc_chw, label)
+
+    def __len__(self):
+        return len(self.annotations)
+
+
+def center_2_hw(box: torch.Tensor) -> float:
+    """
+    Converting (cx, cy, w, h) to (x1, y1, x2, y2)
+    """
+    return torch.cat(
+        [box[:, 0, None] - box[:, 2, None]/2,
+         box[:, 1, None] - box[:, 3, None]/2,
+         box[:, 0, None] + box[:, 2, None]/2,
+         box[:, 1, None] + box[:, 3, None]/2
+         ], dim=1)
+
 
 
 # ################################# 9.9 #########################
