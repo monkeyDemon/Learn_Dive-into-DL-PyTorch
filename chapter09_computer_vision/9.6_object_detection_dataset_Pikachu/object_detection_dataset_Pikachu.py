@@ -123,4 +123,4 @@ for i in range(show_num_rows):
         ax = axes[i][j]
         label = labels[index]
         d2l.show_bboxes(ax, [label.squeeze(0)*256], colors=['r'])
-plt.savefig('../../img/visual_pikachu_dataset.png') 
+plt.savefig('visual_pikachu_dataset.png') 
