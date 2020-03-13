@@ -66,7 +66,8 @@ English Version: [Dive into Deep Learning](https://d2l.ai/) | [Github Repo](http
 
 所以我们用代码把数据集挪到work下就好了:tada:
 
-![download-dataset](https://raw.githubusercontent.com/monkeyDemon/Learn_Dive-into-DL-PyTorch/master/imgs/download_dataset.jpg)
+![download-dataset](https://raw.githubusercontent.com/monkeyDemon/Learn_Dive-into-DL-PyTorch/master/img/download_dataset.jpg)
+![download-dataset](https://github.com/monkeyDemon/Learn_Dive-into-DL-PyTorch/blob/master/img/download_dataset.jpg)
 
 图片有时加载不出来，这里再简单描述下步骤：
 
