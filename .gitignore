@@ -10,3 +10,4 @@ dataset/nltk_data
 dataset/hotdog
 *.pyc
 *.pth
+d2lzh_pytorch/d2l/*
