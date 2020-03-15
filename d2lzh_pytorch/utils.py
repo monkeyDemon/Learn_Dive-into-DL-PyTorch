@@ -7,6 +7,7 @@ import errno
 import random
 import tarfile
 import zipfile
+import itertools
 import collections
 import numpy as np
 from tqdm import tqdm
@@ -712,47 +713,51 @@ def train(train_iter, test_iter, net, loss, optimizer, device, num_epochs):
 
 
 
-############################## 9.3 #####################
-
-
-
 
 ############################ 9.4 ###########################
-def MultiBoxPrior(feature_map, sizes=[0.75, 0.5, 0.25], ratios=[1, 2, 0.5]):
+
+def MultiBoxPrior(feature_map_sizes, sizes, ratios):
+    """生成anchor
+    Compute default box sizes with scale and aspect transform.
+    feature_map_size 特征图大小(h,w)
+    steps 步长，可以理解为将原图划分为feature_map_size * feature_map_size时每一个小格所占的像素大小
+    sizes 可选择的anchor大小,对应的是相对于较短边的比例
+    ratios 可选择的宽高比，(w/h)
+
+    returns: anchor bbox of shape [h*w*anchors, 4]
+             each anchor is as [x1, y1, x2, y2], for example: tensor([-0.0309,  0.0715,  0.7191,  0.8215])
     """
-    # 按照「9.4.1. 生成多个锚框」所讲的实现, anchor表示成(xmin, ymin, xmax, ymax).
-    https://zh.d2l.ai/chapter_computer-vision/anchor.html
-    Args:
-        feature_map: torch tensor, Shape: [N, C, H, W].
-        sizes: List of sizes (0~1) of generated MultiBoxPriores. 
-        ratios: List of aspect ratios (non-negative) of generated MultiBoxPriores. 
-    Returns:
-        anchors of shape (1, num_anchors, 4). 由于batch里每个都一样, 所以第一维为1
-    """
-    pairs = [] # pair of (size, sqrt(ration))
-    for r in ratios:
-        pairs.append([sizes[0], math.sqrt(r)])
-    for s in sizes[1:]:
-        pairs.append([s, math.sqrt(ratios[0])])
-    
-    pairs = np.array(pairs)
-    
-    ss1 = pairs[:, 0] * pairs[:, 1] # size * sqrt(ration)
-    ss2 = pairs[:, 0] / pairs[:, 1] # size / sqrt(ration)
-    
-    base_anchors = np.stack([-ss1, -ss2, ss1, ss2], axis=1) / 2
-    
-    h, w = feature_map.shape[-2:]
-    shifts_x = np.arange(0, w) / w
-    shifts_y = np.arange(0, h) / h
-    shift_x, shift_y = np.meshgrid(shifts_x, shifts_y)
-    shift_x = shift_x.reshape(-1)
-    shift_y = shift_y.reshape(-1)
-    shifts = np.stack((shift_x, shift_y, shift_x, shift_y), axis=1)
-    
-    anchors = shifts.reshape((-1, 1, 4)) + base_anchors.reshape((1, -1, 4))
-    
-    return torch.tensor(anchors, dtype=torch.float32).view(1, -1, 4)
+    assert len(feature_map_sizes)==2
+
+    fm_h, fm_w = feature_map_sizes
+    step_h = 1 / fm_h
+    step_w = 1 / fm_w
+
+    # 因为原图比例fm_h:fm_w不一定是1：1，而size表示的anchor的宽高在原图中的比例，
+    # 因此size_w=size_h并不代表宽高比1：1，需要换算出ratio=1时，size_w和size_h为多少时在原图中才是真正1:1的anchor
+    if fm_h >= fm_w:
+        sizes = [[s * fm_w / fm_h, s] for s in sizes]
+    else:
+        sizes = [[s, s * fm_h / fm_w] for s in sizes]
+
+    boxes = []
+    for h, w in itertools.product(range(fm_h), range(fm_w)):  # itertools.product的作用相当于笛卡儿积
+        # 计算特征图当前位置的anchor的中心坐标，不同size和ratio是共享的
+        cx = (w + 0.5)*step_w
+        cy = (h + 0.5)*step_h
+
+        # 计算基础尺寸下，不同宽高比的anchor
+        sh, sw = sizes[0]
+        for ar in ratios:
+            boxes.append((cx-(sw * math.sqrt(ar))/2, cy-(sh / math.sqrt(ar))/2, cx+(sw * math.sqrt(ar))/2, cy+(sh / math.sqrt(ar))/2))
+
+        # 再计算宽高比1*1，不同size的anchor
+        for size in sizes[1:]:  # 剔除基础尺寸sizes[0]的anchor以避免重复
+            sh, sw = size
+            boxes.append((cx-sw/2, cy-sh/2, cx+sw/2, cy+sh/2))
+
+    return torch.Tensor(boxes) # [h*w*anchors, 4]
+
 
 
 def compute_intersection(set_1, set_2):
@@ -769,6 +774,7 @@ def compute_intersection(set_1, set_2):
     upper_bounds = torch.min(set_1[:, 2:].unsqueeze(1), set_2[:, 2:].unsqueeze(0))  # (n1, n2, 2)
     intersection_dims = torch.clamp(upper_bounds - lower_bounds, min=0)  # (n1, n2, 2)
     return intersection_dims[:, :, 0] * intersection_dims[:, :, 1]  # (n1, n2)
+
 
 def compute_jaccard(set_1, set_2):
     """
@@ -791,6 +797,7 @@ def compute_jaccard(set_1, set_2):
     union = areas_set_1.unsqueeze(1) + areas_set_2.unsqueeze(0) - intersection  # (n1, n2)
 
     return intersection / union  # (n1, n2)
+
 
 def assign_anchor(bb, anchor, jaccard_threshold=0.5):
     """
@@ -824,6 +831,7 @@ def assign_anchor(bb, anchor, jaccard_threshold=0.5):
     
     return torch.tensor(assigned_idx, dtype=torch.long)
 
+
 def xy_to_cxcy(xy):
     """
     将(x_min, y_min, x_max, y_max)形式的anchor转换成(center_x, center_y, w, h)形式的.
@@ -836,19 +844,20 @@ def xy_to_cxcy(xy):
     return torch.cat([(xy[:, 2:] + xy[:, :2]) / 2,  # c_x, c_y
                       xy[:, 2:] - xy[:, :2]], 1)  # w, h
 
+
 def MultiBoxTarget(anchor, label):
     """
     # 按照「9.4.1. 生成多个锚框」所讲的实现, anchor表示成归一化(xmin, ymin, xmax, ymax).
     https://zh.d2l.ai/chapter_computer-vision/anchor.html
     Args:
         anchor: torch tensor, 输入的锚框, 一般是通过MultiBoxPrior生成, shape:（1，锚框总数，4）
-        label: 真实标签, shape为(bn, 每张图片最多的真实锚框数, 5)
+        label: 真实标签, shape为(batch, 每张图片允许的最大物体个数, 5)
                第二维中，如果给定图片没有这么多锚框, 可以先用-1填充空白, 最后一维中的元素为[类别标签, 四个坐标值]
     Returns:
         列表, [bbox_offset, bbox_mask, cls_labels]
-        bbox_offset: 每个锚框的标注偏移量，形状为(bn，锚框总数*4)
+        bbox_offset: 每个锚框的标注偏移量，形状为(batch，锚框总数*4)
         bbox_mask: 形状同bbox_offset, 每个锚框的掩码, 一一对应上面的偏移量, 负类锚框(背景)对应的掩码均为0, 正类锚框的掩码均为1
-        cls_labels: 每个锚框的标注类别, 其中0表示为背景, 形状为(bn，锚框总数)
+        cls_labels: 每个锚框的标注类别, 其中0表示为背景, 形状为(batch，锚框总数)
     """
     assert len(anchor.shape) == 3 and len(label.shape) == 3
     bn = label.shape[0]
@@ -904,6 +913,7 @@ def MultiBoxTarget(anchor, label):
 
 
 Pred_BB_Info = namedtuple("Pred_BB_Info", ["index", "class_id", "confidence", "xyxy"])
+
 def non_max_suppression(bb_info_list, nms_threshold = 0.5):
     """
     非极大抑制处理预测的边界框
@@ -917,6 +927,7 @@ def non_max_suppression(bb_info_list, nms_threshold = 0.5):
     # 先根据置信度从高到低排序
     sorted_bb_info_list = sorted(bb_info_list, key = lambda x: x.confidence, reverse=True)
 
+    # 循环遍历删除冗余输出
     while len(sorted_bb_info_list) != 0:
         best = sorted_bb_info_list.pop(0)
         output.append(best)
@@ -934,6 +945,7 @@ def non_max_suppression(bb_info_list, nms_threshold = 0.5):
         n = len(sorted_bb_info_list)
         sorted_bb_info_list = [sorted_bb_info_list[i] for i in range(n) if iou[i] <= nms_threshold]
     return output
+
 
 def MultiBoxDetection(cls_prob, loc_pred, anchor, nms_threshold = 0.5):
     """
@@ -970,6 +982,7 @@ def MultiBoxDetection(cls_prob, loc_pred, anchor, nms_threshold = 0.5):
         confidence = confidence.detach().cpu().numpy()
         class_id = class_id.detach().cpu().numpy()
         
+        # 获取每个预测bbox的信息
         pred_bb_info = [Pred_BB_Info(
                             index = i,
                             class_id = class_id[i] - 1, # 正类label从0开始
@@ -977,7 +990,7 @@ def MultiBoxDetection(cls_prob, loc_pred, anchor, nms_threshold = 0.5):
                             xyxy=[*anc[i]]) # xyxy是个列表
                         for i in range(pred_bb_num)]
         
-        # 正类的index
+        # 拿到经过nms后预测框对应的index
         obj_bb_idx = [bb.index for bb in non_max_suppression(pred_bb_info, nms_threshold)]
         
         output = []
