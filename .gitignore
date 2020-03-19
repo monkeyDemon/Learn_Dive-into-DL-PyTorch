@@ -12,3 +12,4 @@ dataset/hotdog
 *.pth
 d2lzh_pytorch/d2l/*
 dataset/pikachu/*
+markdown_imgs/*
