@@ -34,17 +34,18 @@ English Version: [Dive into Deep Learning](https://d2l.ai/) | [Github Repo](http
     - [ ] 2.3 自动求梯度
 * 3\. 深度学习基础
     * [3.1 线性回归](https://github.com/monkeyDemon/Learn_Dive-into-DL-PyTorch/tree/master/chapter03_DeepLearning_basics/3.1_linear_regression)
-        * 3.1.1 线性回归
-        * 3.1.2 线性回归的从零开始实现
-        * 3.1.3 线性回归的简洁实现
+        - [x] 3.1.1 线性回归
+        - [x] 3.1.2 线性回归的从零开始实现
+        - [x] 3.1.3 线性回归的简洁实现
     * [3.2 softmax回归](https://github.com/monkeyDemon/Learn_Dive-into-DL-PyTorch/tree/master/chapter03_DeepLearning_basics/3.2_softmax_regression)
-        * 3.4 softmax回归
-        * 3.5 图像分类数据集（Fashion-MNIST）
-        * 3.6 softmax回归的从零开始实现
-        + [ ] 3.7 softmax回归的简洁实现
-    - [ ] 3.8 多层感知机
-    - [ ] 3.9 多层感知机的从零开始实现
-    - [ ] 3.10 多层感知机的简洁实现
+        - [x] 3.2.1 softmax回归
+        - [x] 3.2.2 图像分类数据集（Fashion-MNIST）
+        - [x] 3.2.3 softmax回归的从零开始实现
+        - [x] 3.2.4 softmax回归的简洁实现
+    * [3.8 多层感知机](https://github.com/monkeyDemon/Learn_Dive-into-DL-PyTorch/tree/master/chapter03_DeepLearning_basics/3.3_multilayer_perceptron)
+        - [x] 3.8 多层感知机
+        - [x] 3.9 多层感知机的从零开始实现
+        - [x] 3.10 多层感知机的简洁实现
     - [ ] 3.11 模型选择、欠拟合和过拟合
     - [ ] 3.12 权重衰减
     - [ ] 3.13 丢弃法
