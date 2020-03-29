@@ -17,7 +17,7 @@ lenet 网络搭建
 """
 #import
 import sys
-sys.path.append("../")
+sys.path.append("../../")
 import d2lzh_pytorch as d2l
 import torch
 import torch.nn as nn
@@ -69,7 +69,7 @@ print('获取数据,我们仍然使用Fashion-MNIST作为训练数据集')
 # 数据
 batch_size = 256
 train_iter, test_iter = d2l.load_data_fashion_mnist(
-    batch_size=batch_size, root='../dataset')
+    batch_size=batch_size, root='../../dataset')
 print(len(train_iter))
 
 
