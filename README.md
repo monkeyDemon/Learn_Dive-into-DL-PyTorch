@@ -42,16 +42,16 @@ English Version: [Dive into Deep Learning](https://d2l.ai/) | [Github Repo](http
         - [x] 3.2.2 图像分类数据集（Fashion-MNIST）
         - [x] 3.2.3 softmax回归的从零开始实现
         - [x] 3.2.4 softmax回归的简洁实现
-    * [3.8 多层感知机](https://github.com/monkeyDemon/Learn_Dive-into-DL-PyTorch/tree/master/chapter03_DeepLearning_basics/3.3_multilayer_perceptron)
-        - [x] 3.8 多层感知机
-        - [x] 3.9 多层感知机的从零开始实现
-        - [x] 3.10 多层感知机的简洁实现
-    - [ ] 3.11 模型选择、欠拟合和过拟合
-    - [ ] 3.12 权重衰减
-    - [ ] 3.13 丢弃法
-    - [ ] 3.14 正向传播、反向传播和计算图
-    - [ ] 3.15 数值稳定性和模型初始化
-    - [ ] 3.16 实战Kaggle比赛：房价预测
+    * [3.3 多层感知机](https://github.com/monkeyDemon/Learn_Dive-into-DL-PyTorch/tree/master/chapter03_DeepLearning_basics/3.3_multilayer_perceptron)
+        - [x] 3.3.1 多层感知机
+        - [x] 3.3.2 多层感知机的从零开始实现
+        - [x] 3.3.3 多层感知机的简洁实现
+    - [ ] 3.4 模型选择、欠拟合和过拟合
+    - [ ] 3.5 权重衰减
+    - [ ] 3.6 丢弃法
+    - [ ] 3.7 正向传播、反向传播和计算图
+    - [ ] 3.8 数值稳定性和模型初始化
+    - [ ] 3.9 实战Kaggle比赛：房价预测
 * 4\. 深度学习计算
    - [ ] 4.1 模型构造
    - [ ] 4.2 模型参数的访问、初始化和共享
