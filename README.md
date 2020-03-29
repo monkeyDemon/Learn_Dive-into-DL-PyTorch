@@ -29,27 +29,28 @@ English Version: [Dive into Deep Learning](https://d2l.ai/) | [Github Repo](http
 * 阅读指南
 * 1\. 深度学习简介
 * 2\. 预备知识
-   - [ ] 2.1 环境配置
-   - [ ] 2.2 数据操作
-   - [ ] 2.3 自动求梯度
+    - [ ] 2.1 环境配置
+    - [ ] 2.2 数据操作
+    - [ ] 2.3 自动求梯度
 * 3\. 深度学习基础
-   * 3.1 线性回归
-       - [ ] 3.1 线性回归
-       - [ ] 3.2 线性回归的从零开始实现
-       - [ ] 3.3 线性回归的简洁实现
-   - [ ] 3.4 softmax回归
-   - [ ] 3.5 图像分类数据集（Fashion-MNIST）
-   - [ ] 3.6 softmax回归的从零开始实现
-   - [ ] 3.7 softmax回归的简洁实现
-   - [ ] 3.8 多层感知机
-   - [ ] 3.9 多层感知机的从零开始实现
-   - [ ] 3.10 多层感知机的简洁实现
-   - [ ] 3.11 模型选择、欠拟合和过拟合
-   - [ ] 3.12 权重衰减
-   - [ ] 3.13 丢弃法
-   - [ ] 3.14 正向传播、反向传播和计算图
-   - [ ] 3.15 数值稳定性和模型初始化
-   - [ ] 3.16 实战Kaggle比赛：房价预测
+    * [3.1 线性回归](https://github.com/monkeyDemon/Learn_Dive-into-DL-PyTorch/tree/master/chapter03_DeepLearning_basics/3.1_linear_regression)
+        * 3.1.1 线性回归
+        * 3.1.2 线性回归的从零开始实现
+        * 3.1.3 线性回归的简洁实现
+    * [3.2 softmax回归](https://github.com/monkeyDemon/Learn_Dive-into-DL-PyTorch/tree/master/chapter03_DeepLearning_basics/3.2_softmax_regression)
+        * 3.4 softmax回归
+        * 3.5 图像分类数据集（Fashion-MNIST）
+        * 3.6 softmax回归的从零开始实现
+        + [ ] 3.7 softmax回归的简洁实现
+    - [ ] 3.8 多层感知机
+    - [ ] 3.9 多层感知机的从零开始实现
+    - [ ] 3.10 多层感知机的简洁实现
+    - [ ] 3.11 模型选择、欠拟合和过拟合
+    - [ ] 3.12 权重衰减
+    - [ ] 3.13 丢弃法
+    - [ ] 3.14 正向传播、反向传播和计算图
+    - [ ] 3.15 数值稳定性和模型初始化
+    - [ ] 3.16 实战Kaggle比赛：房价预测
 * 4\. 深度学习计算
    - [ ] 4.1 模型构造
    - [ ] 4.2 模型参数的访问、初始化和共享
