@@ -152,7 +152,7 @@ def show_images(imgs, num_rows, num_cols, scale=2):
 
 
 imgs = [train_dataset[i][0].permute(1,2,0) for i in range(10)]
-labels = [(torch.Tensor(train_dataset[i][1]).unsqueeze(0)) for i in range(10)]
+labels = [torch.Tensor(train_dataset[i][1]).unsqueeze(0) for i in range(10)]
 
 show_num_rows = 2
 show_num_cols = 5
