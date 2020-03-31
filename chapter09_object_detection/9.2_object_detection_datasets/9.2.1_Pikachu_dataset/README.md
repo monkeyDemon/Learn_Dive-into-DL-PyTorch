@@ -1,8 +1,12 @@
-# 9.6. 目标检测数据集（皮卡丘）
+# 9.2.1 目标检测数据集（皮卡丘）
 
-在目标检测领域并没有类似MNIST或Fashion-MNIST那样的小数据集。为了快速测试模型，我们合成了一个小的数据集。我们首先使用一个开源的皮卡丘3D模型生成了1,000张不同角度和大小的皮卡丘图像。然后我们收集了一系列背景图像，并在每张图的随机位置放置一张随机的皮卡丘图像。
+在目标检测领域并没有类似MNIST或Fashion-MNIST那样的小数据集。为了快速测试模型，我们可以合成了一个小的数据集。
+
+除了构造一个小的便于测试的数据集之外，通过本小节还可以了解如何自定义一个数据集DataLoader，后面的章节并不会使用本节生成的数据集，因此如果你对这部分内容不感兴趣，可以选择跳过。
 
 ![皮卡丘](https://s1.ax1x.com/2020/03/13/8KPtot.jpg)
+
+我们首先使用一个开源的皮卡丘3D模型生成了1,000张不同角度和大小的皮卡丘图像。然后我们收集了一系列背景图像，并在每张图的随机位置放置一张随机的皮卡丘图像。
 
 原书使用MXNet提供的工具将图像转换成二进制的RecordIO格式。该格式既可以降低数据集在磁盘上的存储开销，又能提高读取效率，这里我们不需要详细了解。
 
@@ -12,12 +16,12 @@
 pip install mxnet
 ```
 
-## 9.6.1. 获取数据集
+## 1. 获取数据集
 
 首先引入必要的包
 ```
 import sys
-sys.path.append("../../")
+sys.path.append("../../../")
 import d2lzh_pytorch as d2l
 
 import os
@@ -29,7 +33,7 @@ from matplotlib import pyplot as plt
 import torch
 import torchvision.transforms as transforms
 
-pikachu_dataset = '../../dataset/pikachu'
+pikachu_dataset = '../../../dataset/pikachu'
 ```
 
 RecordIO格式的皮卡丘数据集可以直接在网上下载。获取数据集的操作定义在download_pikachu函数中。
@@ -55,7 +59,7 @@ def download_pikachu(data_dir):
 d2l.download_and_preprocess_pikachu_data(dir=pikachu_dataset)
 ```
 
-## 9.6.2. 读取数据集
+## 2. 读取数据集
 
 这里我们创建一个`PIKACHU`类（已经放入d2l中），用来加载前面生成的标注文件（包含了图片名称和对应的目标框信息的json）。然后我们即可创建一个pytorch的DataLoader来使用PIKACHU类完成训练过程的数据读取工作。
 
@@ -87,30 +91,17 @@ class PIKACHU(torch.utils.data.Dataset):
         # print(img.shape)
         loc = np.array(annotations_i['loc'])
 
-        loc_chw = np.zeros((4,))
-        loc_chw[0] = (loc[0] + loc[2])/2
-        loc_chw[1] = (loc[1] + loc[3])/2
-        loc_chw[2] = (loc[2] - loc[0])  #width
-        loc_chw[3] = (loc[3] - loc[1])  # height
-
-
         label = 1 - annotations_i['class']
 
         if self.transform is not None:
             img = self.transform(img)
-        return (img, loc_chw, label)
+        return (img, loc, label)
 
     def __len__(self):
         return len(self.annotations)
 ```
 
-下面我们读取一个小批量并打印图像和标签的形状。图像的形状和之前实验中的一样，依然是(批量大小, 通道数, 高, 宽)。而标签的形状则是(批量大小,  m , 4)，其中 m 等于数据集中单个图像最多含有的边界框个数。
-
-小批量计算虽然高效，但它要求每张图像含有相同数量的边界框，以便放在同一个批量中。由于每张图像含有的边界框个数可能不同，我们为边界框个数小于 m 的图像填充非法边界框，直到每张图像均含有 m 个边界框。这样，我们就可以每次读取小批量的图像了。
-
-图像中每个边界框的标签由长度为4的数组表示，4个元素分别表示边界框左上角的 x 和 y 轴坐标以及右下角的 x 和 y 轴坐标（值域在0到1之间）。
-
-这里的皮卡丘数据集中每个图像均有且只有一个边界框，因此 m=1 。
+下面我们读取一个小批量并打印图像和标签的形状。
 
 ```python
 train_dataset = d2l.PIKACHU(pikachu_dataset, 'train')
@@ -133,7 +124,57 @@ print(batch[0].shape, batch[1].shape, batch[2].shape)
 torch.Size([16, 3, 256, 256]) torch.Size([16, 4]) torch.Size([16])
 ```
 
-## 9.6.3. 图示数据
+## 3. 图示数据
+
+我们首先定义可视化目标框相关的函数
+
+```python
+# 本函数已保存在dd2lzh_pytorch包中方便以后使用
+def bbox_to_rect(bbox, color):
+    """Convert bounding box to matplotlib format.
+    Convert the bounding box (top-left x, top-left y, bottom-right x, bottom-right y) 
+    format to matplotlib format: ((upper-left x, upper-left y), width, height)
+    """
+    return plt.Rectangle(xy=(bbox[0], bbox[1]), width=bbox[2]-bbox[0], height=bbox[3]-bbox[1],
+                        fill=False, edgecolor=color, linewidth=2)
+  
+# 本函数已保存在dd2lzh_pytorch包中方便以后使用
+def show_bboxes(axes, bboxes, labels=None, colors=None):
+    """Show bounding boxes.
+    bboxes: 待绘制的bbox， need be format as [[x1,y1,x2,y2],[...], ..., [...]]
+    labels: 与要绘制的bbox一一对应的标注信息，将会绘制在bbox的左上角
+    colors: 标注框显示的颜色，不设置会自动使用几个默认颜色进行轮换
+    """ 
+    def _make_list(obj, default_values=None):
+        if obj is None:
+            obj = default_values
+        elif not isinstance(obj, (list, tuple)):
+            obj = [obj]
+        return obj
+    
+    labels = _make_list(labels)
+    colors = _make_list(colors, ['b', 'g', 'r', 'm', 'c'])
+    for i, bbox in enumerate(bboxes):
+        color = colors[i % len(colors)]
+        rect = bbox_to_rect(bbox, color)
+        axes.add_patch(rect)
+        if labels and len(labels) > i:
+            text_color = 'k' if color == 'w' else 'w'
+            axes.text(rect.xy[0], rect.xy[1], labels[i],
+                      va='center', ha='center', fontsize=6, color=text_color,
+                      bbox=dict(facecolor=color, lw=0))
+
+# 本函数已保存在dd2lzh_pytorch包中方便以后使用
+def show_images(imgs, num_rows, num_cols, scale=2):
+    figsize = (num_cols * scale, num_rows * scale)
+    _, axes = plt.subplots(num_rows, num_cols, figsize=figsize)
+    for i in range(num_rows):
+        for j in range(num_cols):
+            axes[i][j].imshow(imgs[i * num_cols + j])
+            axes[i][j].axes.get_xaxis().set_visible(False)
+            axes[i][j].axes.get_yaxis().set_visible(False)
+    return axes
+```
 
 我们画出10张图像和它们中的边界框。
 
@@ -152,14 +193,16 @@ for i in range(show_num_rows):
         index = i * show_num_cols + j
         ax = axes[i][j]
         label = labels[index]
-        d2l.show_bboxes(ax, [label.squeeze(0)*256], colors=['r'])
+        show_bboxes(ax, [label.squeeze(0)*256], colors=['r'])
 plt.savefig('visual_pikachu_dataset.png')
 ```
 
 ![可视化皮卡求数据集](https://s1.ax1x.com/2020/03/13/8KP1Qe.png)
 
-## 9.6.4. 小结
+## 4. 小结
 
 合成的皮卡丘数据集可用于测试目标检测模型。
 
-目标检测的数据读取与图像分类的类似。然而，在引入边界框后，标签形状和图像增广（如随机裁剪）发生了变化。
+目标检测的数据读取与图像分类的类似，本小节展示了如何自定义一个数据集读取器
+
+在引入边界框后，如果后续进行图像增广（如随机裁剪）会变得复杂，可以思考下如何编写代码。

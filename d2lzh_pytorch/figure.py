@@ -9,6 +9,12 @@ The image module contains functions for plotting
 from matplotlib import pyplot as plt
 
 
+def set_figsize(figsize=(3.5, 2.5)):
+    """Set matplotlib figure size."""
+    fig = plt.figure()
+    plt.rcParams['figure.figsize'] = figsize
+
+
 def bbox_to_rect(bbox, color):
     """Convert bounding box to matplotlib format.
     Convert the bounding box (top-left x, top-left y, bottom-right x, bottom-right y) 
@@ -18,16 +24,11 @@ def bbox_to_rect(bbox, color):
                         fill=False, edgecolor=color, linewidth=2)
 
 
-def set_figsize(figsize=(3.5, 2.5)):
-    """Set matplotlib figure size."""
-    fig = plt.figure()
-    plt.rcParams['figure.figsize'] = figsize
-
-
 def show_bboxes(axes, bboxes, labels=None, colors=None):
     """Show bounding boxes.
     bboxes: 待绘制的bbox， need be format as [[x1,y1,x2,y2],[...], ..., [...]]
     labels: 与要绘制的bbox一一对应的标注信息，将会绘制在bbox的左上角
+    colors: 标注框显示的颜色，不设置会自动使用几个默认颜色进行轮换
     """
     def _make_list(obj, default_values=None):
         if obj is None:
@@ -40,7 +41,7 @@ def show_bboxes(axes, bboxes, labels=None, colors=None):
     colors = _make_list(colors, ['b', 'g', 'r', 'm', 'c'])
     for i, bbox in enumerate(bboxes):
         color = colors[i % len(colors)]
-        rect = bbox_to_rect(bbox.detach().cpu().numpy(), color)
+        rect = bbox_to_rect(bbox, color)
         axes.add_patch(rect)
         if labels and len(labels) > i:
             text_color = 'k' if color == 'w' else 'w'
