@@ -8,8 +8,10 @@ dataset/FashionMNIST/processed/test.pt
 dataset/nltk_data.tar
 dataset/nltk_data
 dataset/hotdog
+dataset/pikachu/*
+dataset/bak/*
+dataset/VOCdevkit/*
 *.pyc
 *.pth
 d2lzh_pytorch/d2l/*
-dataset/pikachu/*
 markdown_imgs/*
