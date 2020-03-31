@@ -844,6 +844,16 @@ def xy_to_cxcy(xy):
     return torch.cat([(xy[:, 2:] + xy[:, :2]) / 2,  # c_x, c_y
                       xy[:, 2:] - xy[:, :2]], 1)  # w, h
 
+def cxcy_to_xy(cxcy):
+    """
+    将(center_x, center_y, w, h)形式的anchor转换成(x_min, y_min, x_max, y_max)形式的.
+    Args:
+        cxcy: bounding boxes in center-size coordinates, a tensor of size (n_boxes, 4)
+    Returns: 
+        bounding boxes in boundary coordinates, a tensor of size (n_boxes, 4)
+    """
+    return torch.cat([cxcy[:, :2] - cxcy[:, 2:] / 2, cxcy[:, :2] + cxcy[:, 2:] / 2], 1) 
+
 
 def MultiBoxTarget(anchor, label):
     """
@@ -976,8 +986,18 @@ def MultiBoxDetection(cls_prob, loc_pred, anchor, nms_threshold = 0.5):
             output: (锚框个数, 6)
         """
         pred_bb_num = c_p.shape[1]
-        anc = (anc + l_p.view(pred_bb_num, 4)).detach().cpu().numpy() # 加上偏移量
-        
+
+        anc = xy_to_cxcy(anc)  # x1,y1,x2,y2 -> cx,cy,w,h
+        l_p = l_p.view(pred_bb_num, 4)
+
+        # 我们在训练时，不是直接学习的目标框的坐标，而是相对于ground truth的一个偏移，并且进行了一些变换
+        # 因此这里要进行逆变换，反推回最终的预测坐标
+        predict_cxcy = 0.1 * l_p[:, :2] * anc[:, 2:] + anc[:, :2]
+        predict_wh = torch.exp(0.2 * l_p[:, 2:]) * anc[:, 2:]
+        predict_cxcywh = torch.cat([predict_cxcy, predict_wh], dim=1)
+        anc = cxcy_to_xy(predict_cxcywh)  # 映射回真正的目标框坐标预测[x1,y1,x2,y2]
+        anc = anc.detach().cpu().numpy()
+
         confidence, class_id = torch.max(c_p, 0)
         confidence = confidence.detach().cpu().numpy()
         class_id = class_id.detach().cpu().numpy()
@@ -1261,6 +1281,33 @@ def center_2_hw(box: torch.Tensor) -> float:
          box[:, 1, None] + box[:, 3, None]/2
          ], dim=1)
 
+
+################################# 9.7 #########################
+
+######### Functions for saving and loading trained models #########
+def save(model, path_to_checkpoints_dir, step, optimizer, loss):
+
+    try:
+        os.makedirs(path_to_checkpoints_dir)
+    except:
+        pass
+
+    path_to_checkpoint = os.path.join(path_to_checkpoints_dir, f'model-{step}_{loss}.pth')
+    checkpoint = {
+        'state_dict': model.state_dict(),
+        'step': step,
+        'optimizer_state_dict': optimizer.state_dict()
+    }
+    torch.save(checkpoint, path_to_checkpoint)
+    return path_to_checkpoint
+
+def load(model, path_to_checkpoint, optimizer):
+    checkpoint = torch.load(path_to_checkpoint)
+    model.load_state_dict(checkpoint['state_dict'])
+    step = checkpoint['step']
+    if optimizer is not None:
+        optimizer.load_state_dict(checkpoint['optimizer_state_dict'])
+    return step
 
 
 # ################################# 9.9 #########################

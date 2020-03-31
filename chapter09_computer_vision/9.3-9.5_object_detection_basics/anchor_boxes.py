@@ -308,6 +308,7 @@ def non_max_suppression(bb_info_list, nms_threshold = 0.5):
 
 def MultiBoxDetection(cls_prob, loc_pred, anchor, nms_threshold = 0.5):
     """
+    整合网络推理结果(anchor及对应的类别预测和偏移量预测)得到最终的bbox预测结果 
     # 按照「9.4.1. 生成多个锚框」所讲的实现, anchor表示成归一化(xmin, ymin, xmax, ymax).
     https://zh.d2l.ai/chapter_computer-vision/anchor.html
     Args:
