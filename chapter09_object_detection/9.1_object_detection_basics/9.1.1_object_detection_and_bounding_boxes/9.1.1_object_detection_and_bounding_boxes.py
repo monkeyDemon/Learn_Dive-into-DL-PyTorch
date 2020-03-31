@@ -7,7 +7,7 @@ Created on Sat Mar 14 21:17:13 2020
 @author: as
 """
 import sys
-sys.path.append("../../")
+sys.path.append("../../../")
 
 import d2lzh_pytorch as d2l
 
