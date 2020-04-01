@@ -208,3 +208,10 @@ for file_name in file_name_list[:visual_cnt]:
 当然，如果你还没有标注数据，这里推荐一个标注工具`labelImg`
 
 这个工具可以比较方便的进行目标检测数据的标注，并且帮你生成VOC标准格式的数据集文件。
+
+windows下使用`pip install labelImage`即可完成安装
+
+运行`labelImg`即可运行软件开始标注
+
+其它平台的安装和使用可以参考[labelImg github主页](https://github.com/tzutalin/labelImg)
+

@@ -98,7 +98,7 @@ English Version: [Dive into Deep Learning](https://d2l.ai/) | [Github Repo](http
     - [ ] 9.2 目标检测数据集
         - [x] [9.2.1 皮卡丘数据集](https://github.com/monkeyDemon/Learn_Dive-into-DL-PyTorch/tree/master/chapter09_object_detection/9.2_object_detection_datasets/9.2.1_Pikachu_dataset)
         - [x] [9.2.2 VOC数据集](https://github.com/monkeyDemon/Learn_Dive-into-DL-PyTorch/tree/master/chapter09_object_detection/9.2_object_detection_datasets/9.2.2_PASCAL_VOC_dataset)
-        - [] 9.2.3 COCO数据集
+        - [ ] 9.2.3 COCO数据集
     * [9.3 目标检测和边界框](https://github.com/monkeyDemon/Learn_Dive-into-DL-PyTorch/blob/master/chapter09_computer_vision/9.3-9.5_object_detection_basics/9.3_object_detection_and_bounding_boxes.md)
     * [9.4 锚框](https://github.com/monkeyDemon/Learn_Dive-into-DL-PyTorch/blob/master/chapter09_computer_vision/9.3-9.5_object_detection_basics/9.4_anchor_boxes.md)
     - [ ] 9.5 多尺度目标检测
