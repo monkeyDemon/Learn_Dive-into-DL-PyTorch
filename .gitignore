@@ -14,4 +14,3 @@ dataset/VOCdevkit/*
 *.pyc
 *.pth
 d2lzh_pytorch/d2l/*
-markdown_imgs/*
