@@ -4,7 +4,7 @@
 
 Github上的一个优秀项目 [tensorboardX](https://github.com/lanpa/tensorboardX)为我们在Pytorch中使用tensorboard这一套完美的可视化工具提供了解决方案。
 
-TensorboardX支持scalar, image, figure, histogram, audio, text, graph, onnx_graph, embedding, pr_curve and videosummaries等不同的可视化展示方式
+TensorboardX支持scalar, image, figure, histogram, audio, text, graph, onnx_graph, embedding, pr_curve, videosummaries等不同的可视化展示方式
 
 ![scalar.png](../../markdown_imgs/11_1_scalar.png)
 
@@ -16,7 +16,7 @@ TensorboardX支持scalar, image, figure, histogram, audio, text, graph, o
 
 这里介绍如何安装tensorboardX，并给出[tensorboardX](https://github.com/lanpa/tensorboardX)的官方demo
 
-如果你只对某些独立的可视化感兴趣，可参加一下demo：
+如果你只对某些独立的可视化功能感兴趣，可参见以下demo：
 
 如何监控训练，见`11.1.1_training_monitor`
 
@@ -37,13 +37,13 @@ $ pip install tensorflow==1.14
 当你已经通过代码生成可视化信息后，通过如下命令运行tensorboard：
 
 ```
-tensorboard --logdir runs
+$ tensorboard --logdir runs
 ```
 
 如果不能成功，尝试
 
 ```
-tensorboard --logdir runs --bind_all
+$ tensorboard --logdir runs --bind_all
 ```
 
 在浏览器输入ip:port即可查看可视化信息:
@@ -54,7 +54,7 @@ ip:6006
 
 ## 官方示例
 
-如下是tensorboardX给出的示例，包含了多种可视化功能的使用示例
+如下是tensorboardX给出的demo，包含了多种可视化功能的使用示例
 
 ```python
 # -*- coding: utf-8 -*-
