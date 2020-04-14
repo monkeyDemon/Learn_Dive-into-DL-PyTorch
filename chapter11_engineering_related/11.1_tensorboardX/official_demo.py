@@ -14,8 +14,7 @@ tensorboard --logdir runs
 tensorboard --logdir runs --bind_all
 
 在浏览器输入:
-ip/6006
-
+ip:6006
 
 @author: lanpa(https://github.com/lanpa)
 @modified by: as
@@ -70,8 +69,7 @@ for n_iter in range(100):
 
 # get a MNIST dataset
 # MNIST and FashionMNIST is both 28 * 28 shape image dataset
-#dataset = datasets.MNIST('../dataset', train=False, download=True)
-dataset = datasets.FashionMNIST('../dataset', train=False, download=True)
+dataset = datasets.FashionMNIST('../../dataset', train=False, download=True)
 images = dataset.test_data[:100].float()
 label = dataset.test_labels[:100]
 
