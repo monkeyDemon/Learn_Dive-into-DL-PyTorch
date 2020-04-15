@@ -48,7 +48,7 @@ $ python graph_model.py
 $ tensorboard --logdir runs --bind_all
 ```
 
-在浏览器输入ip:port即可查看训练的可视化信息:
+在浏览器输入ip:port即可查看计算图的可视化结构:
 
 ```
 ip:6006
