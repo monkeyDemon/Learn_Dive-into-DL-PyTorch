@@ -1,0 +1,136 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project version="4">
+  <component name="ChangeListManager">
+    <list default="true" id="16dde356-27ca-4739-8dc1-6b4f7e596b9a" name="Default Changelist" comment="">
+      <change beforePath="$PROJECT_DIR$/Learn_Dive-into-DL-PyTorch/assignment1_FinshionMNIST_Classification/GoogleNet_Try/GoogleNet_Try.py" beforeDir="false" afterPath="$PROJECT_DIR$/Learn_Dive-into-DL-PyTorch/assignment1_FinshionMNIST_Classification/GoogleNet_Try/GoogleNet_Try.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Learn_Dive-into-DL-PyTorch/assignment1_FinshionMNIST_Classification/GoogleNet_Try/submission.csv" beforeDir="false" afterPath="$PROJECT_DIR$/Learn_Dive-into-DL-PyTorch/assignment1_FinshionMNIST_Classification/GoogleNet_Try/submission.csv" afterDir="false" />
+    </list>
+    <option name="SHOW_DIALOG" value="false" />
+    <option name="HIGHLIGHT_CONFLICTS" value="true" />
+    <option name="HIGHLIGHT_NON_ACTIVE_CHANGELIST" value="false" />
+    <option name="LAST_RESOLUTION" value="IGNORE" />
+  </component>
+  <component name="FileTemplateManagerImpl">
+    <option name="RECENT_TEMPLATES">
+      <list>
+        <option value="Python Script" />
+      </list>
+    </option>
+  </component>
+  <component name="Git.Settings">
+    <option name="RECENT_GIT_ROOT_PATH" value="$PROJECT_DIR$/Learn_Dive-into-DL-PyTorch" />
+  </component>
+  <component name="ProjectId" id="1YG1lCuWRpdZSwq9OvKZUvwHzwU" />
+  <component name="ProjectLevelVcsManager" settingsEditedManually="true">
+    <ConfirmationsSetting value="2" id="Add" />
+  </component>
+  <component name="ProjectViewState">
+    <option name="hideEmptyMiddlePackages" value="true" />
+    <option name="showExcludedFiles" value="true" />
+    <option name="showLibraryContents" value="true" />
+  </component>
+  <component name="PropertiesComponent">
+    <property name="ASKED_ADD_EXTERNAL_FILES" value="true" />
+    <property name="RunOnceActivity.ShowReadmeOnStart" value="true" />
+    <property name="last_opened_file_path" value="$PROJECT_DIR$/Learn_Dive-into-DL-PyTorch/assignment1_FinshionMNIST_Classification/GoogleNet_Try/GoogleNet_Try.py" />
+    <property name="settings.editor.selected.configurable" value="com.jetbrains.python.configuration.PythonContentEntriesConfigurable" />
+  </component>
+  <component name="RecentsManager">
+    <key name="MoveFile.RECENT_KEYS">
+      <recent name="C:\Users\Xyao\Desktop\动手学深度学习大作业\Learn_Dive-into-DL-PyTorch\assignment1_FinshionMNIST_Classification" />
+    </key>
+  </component>
+  <component name="RunManager">
+    <configuration name="GoogleNet_Try" type="PythonConfigurationType" factoryName="Python">
+      <module name="动手学深度学习大作业" />
+      <option name="INTERPRETER_OPTIONS" value="" />
+      <option name="PARENT_ENVS" value="true" />
+      <envs>
+        <env name="PYTHONUNBUFFERED" value="1" />
+      </envs>
+      <option name="SDK_HOME" value="C:\Users\Xyao\Envs\LearnPy\Scripts\python.exe" />
+      <option name="WORKING_DIRECTORY" value="$PROJECT_DIR$/Learn_Dive-into-DL-PyTorch/assignment1_FinshionMNIST_Classification/GoogleNet_Try" />
+      <option name="IS_MODULE_SDK" value="false" />
+      <option name="ADD_CONTENT_ROOTS" value="true" />
+      <option name="ADD_SOURCE_ROOTS" value="true" />
+      <option name="SCRIPT_NAME" value="$PROJECT_DIR$/Learn_Dive-into-DL-PyTorch/assignment1_FinshionMNIST_Classification/GoogleNet_Try/GoogleNet_Try.py" />
+      <option name="PARAMETERS" value="" />
+      <option name="SHOW_COMMAND_LINE" value="false" />
+      <option name="EMULATE_TERMINAL" value="false" />
+      <option name="MODULE_MODE" value="false" />
+      <option name="REDIRECT_INPUT" value="false" />
+      <option name="INPUT_FILE" value="C:\Users\Xyao\Desktop\动手学深度学习大作业\Learn_Dive-into-DL-PyTorch\d2lzh_pytorch" />
+      <method v="2" />
+    </configuration>
+  </component>
+  <component name="ServiceViewManager">
+    <option name="viewStates">
+      <list>
+        <serviceView>
+          <treeState>
+            <expand />
+            <select />
+          </treeState>
+        </serviceView>
+      </list>
+    </option>
+  </component>
+  <component name="SvnConfiguration">
+    <configuration />
+  </component>
+  <component name="TaskManager">
+    <task active="true" id="Default" summary="Default task">
+      <changelist id="16dde356-27ca-4739-8dc1-6b4f7e596b9a" name="Default Changelist" comment="" />
+      <created>1582554265372</created>
+      <option name="number" value="Default" />
+      <option name="presentableId" value="Default" />
+      <updated>1582554265372</updated>
+    </task>
+    <servers />
+  </component>
+  <component name="VcsManagerConfiguration">
+    <option name="ADD_EXTERNAL_FILES_SILENTLY" value="true" />
+  </component>
+  <component name="WindowStateProjectService">
+    <state x="416" y="175" key="#com.intellij.execution.impl.EditConfigurationsDialog" timestamp="1582877585888">
+      <screen x="0" y="0" width="1920" height="1040" />
+    </state>
+    <state x="416" y="175" key="#com.intellij.execution.impl.EditConfigurationsDialog/0.0.1920.1040@0.0.1920.1040" timestamp="1582877585888" />
+    <state x="696" y="323" key="#com.intellij.fileTypes.FileTypeChooser" timestamp="1582695653216">
+      <screen x="0" y="0" width="1920" height="1040" />
+    </state>
+    <state x="696" y="323" key="#com.intellij.fileTypes.FileTypeChooser/0.0.1920.1040@0.0.1920.1040" timestamp="1582695653216" />
+    <state x="742" y="276" key="FileChooserDialogImpl" timestamp="1582793743220">
+      <screen x="0" y="0" width="1920" height="1040" />
+    </state>
+    <state x="742" y="276" key="FileChooserDialogImpl/0.0.1920.1040@0.0.1920.1040" timestamp="1582793743220" />
+    <state width="1900" height="358" key="GridCell.Tab.0.bottom" timestamp="1583122609498">
+      <screen x="0" y="0" width="1920" height="1040" />
+    </state>
+    <state width="1900" height="358" key="GridCell.Tab.0.bottom/0.0.1920.1040@0.0.1920.1040" timestamp="1583122609498" />
+    <state width="1900" height="358" key="GridCell.Tab.0.center" timestamp="1583122609498">
+      <screen x="0" y="0" width="1920" height="1040" />
+    </state>
+    <state width="1900" height="358" key="GridCell.Tab.0.center/0.0.1920.1040@0.0.1920.1040" timestamp="1583122609498" />
+    <state width="1900" height="358" key="GridCell.Tab.0.left" timestamp="1583122609498">
+      <screen x="0" y="0" width="1920" height="1040" />
+    </state>
+    <state width="1900" height="358" key="GridCell.Tab.0.left/0.0.1920.1040@0.0.1920.1040" timestamp="1583122609498" />
+    <state width="1900" height="358" key="GridCell.Tab.0.right" timestamp="1583122609498">
+      <screen x="0" y="0" width="1920" height="1040" />
+    </state>
+    <state width="1900" height="358" key="GridCell.Tab.0.right/0.0.1920.1040@0.0.1920.1040" timestamp="1583122609498" />
+    <state x="340" y="243" key="SettingsEditor" timestamp="1582701292968">
+      <screen x="0" y="0" width="1920" height="1040" />
+    </state>
+    <state x="340" y="243" key="SettingsEditor/0.0.1920.1040@0.0.1920.1040" timestamp="1582701292968" />
+    <state x="644" y="344" key="com.intellij.ide.util.TipDialog" timestamp="1583062954275">
+      <screen x="0" y="0" width="1920" height="1040" />
+    </state>
+    <state x="644" y="344" key="com.intellij.ide.util.TipDialog/0.0.1920.1040@0.0.1920.1040" timestamp="1583062954275" />
+    <state x="554" y="180" key="scopes" timestamp="1582696760239">
+      <screen x="0" y="0" width="1920" height="1040" />
+    </state>
+    <state x="554" y="180" key="scopes/0.0.1920.1040@0.0.1920.1040" timestamp="1582696760239" />
+  </component>
+</project>
